@@ -98,11 +98,68 @@ fn built_in_converter_handles_cn_to_tw2_edge_cases() {
         ("软件发布", "軟體發表"),
         ("发布响应式编程教程", "發表回應式程式設計課程"),
         ("发布数据库迁移脚本", "發表資料庫遷移指令碼"),
+        ("爆发", "爆發"),
         ("千钧一发", "千鈞一髮"),
         ("一触即发", "一觸即發"),
         ("百发百中", "百發百中"),
         ("爆发发布", "爆發發表"),
     ];
+
+    for (source, expected) in cases {
+        assert_eq!(converter.convert(source), expected, "{source}");
+    }
+}
+
+#[test]
+fn built_in_converter_handles_cn_to_tw2_mixed_punctuation_and_unicode_edges() {
+    let converter = converter("cn", "tw2").unwrap();
+    let cases = [
+        ("控制台打印日志", "輸出到 Console記錄"),
+        ("元数据 API", "Metadata API"),
+        ("类（ Class ）加载器", "類別（ Class ）載入器"),
+        ("（视频）", "（影片）"),
+        ("数据库🚀网络请求", "資料庫🚀網路請求"),
+    ];
+
+    for (source, expected) in cases {
+        assert_eq!(converter.convert(source), expected, "{source}");
+    }
+}
+
+#[test]
+fn built_in_converter_handles_cn_to_tw2_regional_orthography_and_sentence_edges() {
+    let converter = converter("cn", "tw2").unwrap();
+    let cases = [
+        ("台湾台球桌", "台灣撞球桌"),
+        ("折叠粘土", "折疊黏土"),
+        (
+            "默认用户界面支持数据库和网络请求。",
+            "預設使用者介面支援資料庫和網路請求。",
+        ),
+        ("命令行工具加载配置文件。", "命令列工具載入組態檔。"),
+        (
+            "创建软件项目目录和项目设置。",
+            "建立軟體專案目錄和專案設定。",
+        ),
+        (
+            "调试器显示调用堆栈和断点。",
+            "偵錯工具顯示呼叫堆疊和中斷點。",
+        ),
+        (
+            "响应式编程教程包含缓存策略。",
+            "回應式程式設計課程包含快取策略。",
+        ),
+    ];
+
+    for (source, expected) in cases {
+        assert_eq!(converter.convert(source), expected, "{source}");
+    }
+}
+
+#[test]
+fn built_in_converter_documents_cn_to_tw2_release_publish_current_behavior() {
+    let converter = converter("cn", "tw2").unwrap();
+    let cases = [("发布公告", "發表公告"), ("发布新版本", "發表新版本")];
 
     for (source, expected) in cases {
         assert_eq!(converter.convert(source), expected, "{source}");

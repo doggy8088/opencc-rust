@@ -4,10 +4,8 @@ use std::borrow::Cow;
 use std::collections::HashMap;
 use std::fmt;
 
-const TW_PHRASES_CUSTOM_EXTRA: &str =
-    r####"網絡服務	網路服務|應用程序網關	應用程式閘道|鏡像文件	映像檔|保存更改	儲存變更"####;
-const TW_PHRASES_CUSTOM_EXTRA_REV: &str =
-    r####"網路服務	網絡服務|應用程式閘道	應用程序網關|映像檔	鏡像文件|儲存變更	保存更改"####;
+const TW_PHRASES_CUSTOM_EXTRA: &str = r####"網絡服務	網路服務|應用程序網關	應用程式閘道|鏡像文件	映像檔|保存更改	儲存變更|台球桌	撞球桌"####;
+const TW_PHRASES_CUSTOM_EXTRA_REV: &str = r####"網路服務	網絡服務|應用程式閘道	應用程序網關|映像檔	鏡像文件|儲存變更	保存更改|撞球桌	台球桌"####;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum OpenCCError {
