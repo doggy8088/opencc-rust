@@ -15,10 +15,11 @@ fn trie_uses_longest_match() {
 #[test]
 fn trie_loads_pipe_separated_dictionary_and_skips_malformed_lines() {
     let mut trie = Trie::new();
-    trie.load_dict_str("a b|invalid|c d");
+    trie.load_dict_str("a b|invalid|c d|Web 平台庫\tWeb 平台函式庫");
 
     assert_eq!(trie.convert("a"), "b");
     assert_eq!(trie.convert("c"), "d");
+    assert_eq!(trie.convert("Web 平台庫"), "Web 平台函式庫");
     assert_eq!(trie.convert("x"), "x");
 }
 
@@ -37,6 +38,43 @@ fn built_in_converter_converts_cn_to_tw2() {
     let converter = converter("cn", "tw2").unwrap();
 
     assert_eq!(converter.convert("汉语"), "漢語");
+}
+
+#[test]
+fn built_in_converter_converts_preferred_taiwan_terms_to_tw2() {
+    let converter = converter("cn", "tw2").unwrap();
+    let cases = [
+        ("视频", "影片"),
+        ("音频", "音訊"),
+        ("软件", "軟體"),
+        ("硬件", "硬體"),
+        ("程序", "程式"),
+        ("进程", "行程"),
+        ("进程间通信", "行程間通訊"),
+        ("线程", "執行緒"),
+        ("数据", "資料"),
+        ("数据库", "資料庫"),
+        ("网络", "網路"),
+        ("信息", "資訊"),
+        ("质量", "品質"),
+        ("用户", "使用者"),
+        ("默认", "預設"),
+        ("创建", "建立"),
+        ("实现", "實作"),
+        ("运行", "執行"),
+        ("发布", "發表"),
+        ("屏幕", "螢幕"),
+        ("界面", "介面"),
+        ("文档", "文件"),
+        ("操作系统", "作業系統"),
+        ("剑指", "針對"),
+        ("痛点", "要害"),
+        ("硬伤", "罩門"),
+    ];
+
+    for (source, expected) in cases {
+        assert_eq!(converter.convert(source), expected, "{source}");
+    }
 }
 
 #[test]

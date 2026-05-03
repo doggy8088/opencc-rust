@@ -167,12 +167,15 @@ impl Trie {
                 continue;
             }
 
-            let parts: Vec<&str> = line.split(' ').collect();
-            if parts.len() < 2 {
+            let (source, target) = if let Some((source, target)) = line.split_once('\t') {
+                (source, target)
+            } else if let Some((source, target)) = line.split_once(' ') {
+                (source, target)
+            } else {
                 continue;
-            }
+            };
 
-            self.add_word(parts[0], parts[1]);
+            self.add_word(source, target);
         }
     }
 
