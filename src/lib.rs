@@ -4,6 +4,11 @@ use std::borrow::Cow;
 use std::collections::HashMap;
 use std::fmt;
 
+const TW_PHRASES_CUSTOM_EXTRA: &str =
+    r####"網絡服務	網路服務|應用程序網關	應用程式閘道|鏡像文件	映像檔|保存更改	儲存變更"####;
+const TW_PHRASES_CUSTOM_EXTRA_REV: &str =
+    r####"網路服務	網絡服務|應用程式閘道	應用程序網關|映像檔	鏡像文件|儲存變更	保存更改"####;
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum OpenCCError {
     MissingLocale { kind: &'static str },
@@ -341,11 +346,13 @@ fn add_dict_group(
 }
 
 pub mod locale {
-    use super::{DictGroup, LocalePreset, dict_data};
+    use super::{
+        DictGroup, LocalePreset, TW_PHRASES_CUSTOM_EXTRA, TW_PHRASES_CUSTOM_EXTRA_REV, dict_data,
+    };
     use std::collections::HashMap;
 
     pub mod from {
-        use super::{DictGroup, dict_data};
+        use super::{DictGroup, TW_PHRASES_CUSTOM_EXTRA_REV, dict_data};
 
         pub fn cn() -> DictGroup {
             DictGroup::from_strings([dict_data::ST_CHARACTERS, dict_data::ST_PHRASES])
@@ -366,7 +373,11 @@ pub mod locale {
         }
 
         pub fn tw2() -> DictGroup {
-            DictGroup::from_strings([dict_data::TW_VARIANTS_REV, dict_data::TW_PHRASES_CUSTOM_REV])
+            DictGroup::from_strings([
+                dict_data::TW_VARIANTS_REV,
+                TW_PHRASES_CUSTOM_EXTRA_REV,
+                dict_data::TW_PHRASES_CUSTOM_REV,
+            ])
         }
 
         pub fn twp() -> DictGroup {
@@ -387,7 +398,7 @@ pub mod locale {
     }
 
     pub mod to {
-        use super::{DictGroup, dict_data};
+        use super::{DictGroup, TW_PHRASES_CUSTOM_EXTRA, dict_data};
 
         pub fn cn() -> DictGroup {
             DictGroup::from_strings([dict_data::TS_CHARACTERS, dict_data::TS_PHRASES])
@@ -402,7 +413,11 @@ pub mod locale {
         }
 
         pub fn tw2() -> DictGroup {
-            DictGroup::from_strings([dict_data::TW_VARIANTS, dict_data::TW_PHRASES_CUSTOM])
+            DictGroup::from_strings([
+                dict_data::TW_VARIANTS,
+                TW_PHRASES_CUSTOM_EXTRA,
+                dict_data::TW_PHRASES_CUSTOM,
+            ])
         }
 
         pub fn twp() -> DictGroup {

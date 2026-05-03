@@ -54,7 +54,12 @@ fn built_in_converter_converts_preferred_taiwan_terms_to_tw2() {
         ("线程", "執行緒"),
         ("数据", "資料"),
         ("数据库", "資料庫"),
+        ("电子邮件", "電子郵件"),
         ("网络", "網路"),
+        ("网络服务", "網路服務"),
+        ("应用程序网关", "應用程式閘道"),
+        ("镜像文件", "映像檔"),
+        ("保存更改", "儲存變更"),
         ("信息", "資訊"),
         ("质量", "品質"),
         ("用户", "使用者"),
@@ -70,6 +75,33 @@ fn built_in_converter_converts_preferred_taiwan_terms_to_tw2() {
         ("剑指", "針對"),
         ("痛点", "要害"),
         ("硬伤", "罩門"),
+    ];
+
+    for (source, expected) in cases {
+        assert_eq!(converter.convert(source), expected, "{source}");
+    }
+}
+
+#[test]
+fn built_in_converter_handles_cn_to_tw2_edge_cases() {
+    let converter = converter("cn", "tw2").unwrap();
+    let cases = [
+        ("数据结构数据库", "資料結構資料庫"),
+        ("命令行工具", "命令列工具"),
+        ("响应式编程响应头", "回應式程式設計回應標頭"),
+        ("Web 平台库", "Web 平台函式庫"),
+        ("for 循环和while 循环", "for 迴圈和while 迴圈"),
+        ("「类」", "「類別」"),
+        ("类。", "類別。"),
+        ("“数据库”, “网络请求”", "“資料庫”, “網路請求”"),
+        ("项目设置：默认值", "專案設定：預設值"),
+        ("软件发布", "軟體發表"),
+        ("发布响应式编程教程", "發表回應式程式設計課程"),
+        ("发布数据库迁移脚本", "發表資料庫遷移指令碼"),
+        ("千钧一发", "千鈞一髮"),
+        ("一触即发", "一觸即發"),
+        ("百发百中", "百發百中"),
+        ("爆发发布", "爆發發表"),
     ];
 
     for (source, expected) in cases {
