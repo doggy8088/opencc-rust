@@ -1,6 +1,6 @@
 # opencc-rust
 
-`opencc-rust` 是依照本資料夾上層 `OpenCC/` C# 實作移植的純 Rust OpenCC 函式庫。核心行為保留原實作的內嵌字典、locale preset、Trie 最長匹配與多階段轉換流程。
+`opencc-rust` 是依照 [OpenCC for C#](https://github.com/doggy8088/opencc) 實作移植的純 Rust OpenCC 函式庫。核心行為保留原實作的內嵌字典、locale preset、Trie 最長匹配與多階段轉換流程。
 
 ## 功能
 
