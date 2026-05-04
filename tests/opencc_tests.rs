@@ -98,6 +98,10 @@ fn built_in_converter_handles_cn_to_tw2_edge_cases() {
         ("软件发布", "軟體發表"),
         ("发布响应式编程教程", "發表回應式程式設計課程"),
         ("发布数据库迁移脚本", "發表資料庫遷移指令碼"),
+        ("文件名和文件系统", "檔名和檔案系統"),
+        ("文件描述符和函数调用", "檔案描述子和函式呼叫"),
+        ("渲染管线和内存分配", "算繪管線和記憶體配置"),
+        ("网络栈和网络适配器", "網路堆疊和網路介面卡"),
         ("爆发", "爆發"),
         ("千钧一发", "千鈞一髮"),
         ("一触即发", "一觸即發"),
@@ -171,6 +175,21 @@ fn built_in_converter_converts_tw_to_cn() {
     let converter = converter("tw", "cn").unwrap();
 
     assert_eq!(converter.convert("漢語"), "汉语");
+}
+
+#[test]
+fn built_in_converter_converts_tw2_technical_phrases_to_cn() {
+    let converter = converter("tw2", "cn").unwrap();
+    let cases = [
+        ("檔名和檔案系統", "文件名和文件系统"),
+        ("檔案描述子和函式呼叫", "文件描述符和函数调用"),
+        ("算繪管線和記憶體配置", "渲染管线和内存分配"),
+        ("網路堆疊和網路介面卡", "网络栈和网络适配器"),
+    ];
+
+    for (source, expected) in cases {
+        assert_eq!(converter.convert(source), expected, "{source}");
+    }
 }
 
 #[test]
