@@ -115,6 +115,36 @@ fn built_in_converter_handles_cn_to_tw2_edge_cases() {
 }
 
 #[test]
+fn built_in_converter_keeps_cn_to_tw2_project_item_contexts() {
+    let converter = converter("cn", "tw2").unwrap();
+    let cases = [
+        ("项目", "項目"),
+        ("清单项目", "清單項目"),
+        ("每个项目", "每個項目"),
+    ];
+
+    for (source, expected) in cases {
+        assert_eq!(converter.convert(source), expected, "{source}");
+    }
+}
+
+#[test]
+fn built_in_converter_converts_cn_to_tw2_project_compounds() {
+    let converter = converter("cn", "tw2").unwrap();
+    let cases = [
+        ("项目文件夹", "專案資料夾"),
+        ("项目的", "專案的"),
+        ("项目目录", "專案目錄"),
+        ("项目管理", "專案管理"),
+        ("项目设置", "專案設定"),
+    ];
+
+    for (source, expected) in cases {
+        assert_eq!(converter.convert(source), expected, "{source}");
+    }
+}
+
+#[test]
 fn built_in_converter_handles_cn_to_tw2_mixed_punctuation_and_unicode_edges() {
     let converter = converter("cn", "tw2").unwrap();
     let cases = [
@@ -185,6 +215,23 @@ fn built_in_converter_converts_tw2_technical_phrases_to_cn() {
         ("檔案描述子和函式呼叫", "文件描述符和函数调用"),
         ("算繪管線和記憶體配置", "渲染管线和内存分配"),
         ("網路堆疊和網路介面卡", "网络栈和网络适配器"),
+    ];
+
+    for (source, expected) in cases {
+        assert_eq!(converter.convert(source), expected, "{source}");
+    }
+}
+
+#[test]
+fn built_in_converter_handles_tw2_to_cn_project_terms() {
+    let converter = converter("tw2", "cn").unwrap();
+    let cases = [
+        ("專案", "专案"),
+        ("專案資料夾", "项目文件夹"),
+        ("專案的", "项目的"),
+        ("專案目錄", "项目目录"),
+        ("專案管理", "项目管理"),
+        ("專案設定", "项目设置"),
     ];
 
     for (source, expected) in cases {
