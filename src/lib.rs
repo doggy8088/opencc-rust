@@ -4,8 +4,37 @@ use std::borrow::Cow;
 use std::collections::HashMap;
 use std::fmt;
 
-const TW_PHRASES_CUSTOM_EXTRA: &str = r####"網絡服務	網路服務|應用程序網關	應用程式閘道|鏡像文件	映像檔|保存更改	儲存變更|台球桌	撞球桌|文件名	檔名|文件系統	檔案系統|文件描述符	檔案描述子|函數調用	函式呼叫|渲染管線	算繪管線|內存分配	記憶體配置|網絡棧	網路堆疊|網絡適配器	網路介面卡"####;
-const TW_PHRASES_CUSTOM_EXTRA_REV: &str = r####"網路服務	網絡服務|應用程式閘道	應用程序網關|映像檔	鏡像文件|儲存變更	保存更改|撞球桌	台球桌|檔名	文件名|檔案系統	文件系統|檔案描述子	文件描述符|函式呼叫	函數調用|算繪管線	渲染管線|記憶體配置	內存分配|網路堆疊	網絡棧|網路介面卡	網絡適配器"####;
+const TW_PHRASES_CUSTOM_EXTRA: &str = r####"
+網絡服務	網路服務
+應用程序網關	應用程式閘道
+鏡像文件	映像檔
+保存更改	儲存變更
+台球桌	撞球桌
+文件名	檔名
+文件系統	檔案系統
+文件描述符	檔案描述子
+函數調用	函式呼叫
+渲染管線	算繪管線
+內存分配	記憶體配置
+網絡棧	網路堆疊
+網絡適配器	網路介面卡
+"####;
+const TW_PHRASES_CUSTOM_EXTRA_REV: &str = r####"
+網路服務	網絡服務
+應用程式閘道	應用程序網關
+映像檔	鏡像文件
+儲存變更	保存更改
+撞球桌	台球桌
+檔名	文件名
+檔案系統	文件系統
+檔案描述子	文件描述符
+函式呼叫	函數調用
+算繪管線	渲染管線
+記憶體配置	內存分配
+網路堆疊	網絡棧
+網路介面卡	網絡適配器
+"####;
+
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum OpenCCError {
@@ -165,7 +194,8 @@ impl Trie {
     }
 
     pub fn load_dict_str(&mut self, dict: &str) {
-        for line in dict.split('|') {
+        for line in dict.split(|c| c == '|' || c == '\n') {
+            let line = line.trim();
             if line.is_empty() {
                 continue;
             }
