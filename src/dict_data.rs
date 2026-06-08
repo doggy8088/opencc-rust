@@ -58931,6 +58931,7 @@ while 循環	while 迴圈
 單反相機	單眼相機
 剃鬚刀	刮鬍刀
 屏幕	螢幕
+平臺	平台
 ";
 
 pub const TW_PHRASES_CUSTOM_REV: &str = "\
@@ -59338,6 +59339,7 @@ LLM	法學碩士
 單眼相機	單反相機
 刮鬍刀	剃鬚刀
 螢幕	屏幕
+平台	平臺
 ";
 
 pub const TW_PHRASES_IT: &str = "\

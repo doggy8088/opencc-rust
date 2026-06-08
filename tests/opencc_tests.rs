@@ -201,6 +201,36 @@ fn built_in_converter_documents_cn_to_tw2_release_publish_current_behavior() {
 }
 
 #[test]
+fn built_in_converter_uses_ping_tai_not_ping_tai_in_tw2() {
+    let cn_to_tw2 = converter("cn", "tw2").unwrap();
+    let cases = [
+        // bare 平台 (simplified) → 平台 (tw2), never 平臺
+        ("平台", "平台"),
+        // common platform compounds
+        ("跨平台", "跨平台"),
+        ("软件平台", "軟體平台"),
+        ("作业平台", "作業平台"),
+        // library compounds still expand 庫→函式庫
+        ("Web 平台库", "Web 平台函式庫"),
+        ("全平台库列表", "全平台函式庫列表"),
+        ("原生平台库", "原生平台函式庫"),
+    ];
+    for (source, expected) in cases {
+        assert_eq!(cn_to_tw2.convert(source), expected, "cn→tw2: {source}");
+    }
+
+    // tw2 → cn reverse: 平台 maps back to 平台
+    let tw2_to_cn = converter("tw2", "cn").unwrap();
+    let rev_cases = [
+        ("跨平台", "跨平台"),
+        ("軟體平台", "软件平台"),
+    ];
+    for (source, expected) in rev_cases {
+        assert_eq!(tw2_to_cn.convert(source), expected, "tw2→cn: {source}");
+    }
+}
+
+#[test]
 fn built_in_converter_converts_tw_to_cn() {
     let converter = converter("tw", "cn").unwrap();
 
