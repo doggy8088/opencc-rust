@@ -231,6 +231,55 @@ fn built_in_converter_uses_ping_tai_not_ping_tai_in_tw2() {
 }
 
 #[test]
+fn built_in_converter_uses_tai_except_official_names_in_tw2() {
+    let cn_to_tw2 = converter("cn", "tw2").unwrap();
+    let cases = [
+        // 日常用語用「台」
+        ("台北", "台北"),
+        ("台湾", "台灣"),
+        ("台中", "台中"),
+        ("台阶", "台階"),
+        ("电视台", "電視台"),
+        ("舞台", "舞台"),
+        ("后台", "後台"),
+        ("台积电", "台積電"),
+        // 「颱」「檯」不受影響
+        ("台风", "颱風"),
+        ("柜台", "櫃檯"),
+        ("吧台", "吧檯"),
+        ("台灯", "檯燈"),
+        // 正式名稱保留「臺」
+        ("国立台湾大学", "國立臺灣大學"),
+        ("台北市政府", "臺北市政府"),
+        ("新台币", "新臺幣"),
+        ("台湾银行", "臺灣銀行"),
+        ("台湾台北地方法院", "臺灣臺北地方法院"),
+        ("我在台北市政府上班", "我在臺北市政府上班"),
+    ];
+    for (source, expected) in cases {
+        assert_eq!(cn_to_tw2.convert(source), expected, "cn→tw2: {source}");
+    }
+}
+
+#[test]
+fn built_in_converter_normalizes_tai_in_tw2_official_names() {
+    let cases = [
+        ("tw", "tw2", "臺北", "台北"),
+        ("tw", "tw2", "國立臺灣大學", "國立臺灣大學"),
+        // 寫成「台」的正式名稱統一成「臺」
+        ("tw2", "tw2", "台北市政府", "臺北市政府"),
+        ("tw2", "tw2", "新台幣", "新臺幣"),
+        ("tw2", "tw2", "台灣臺北地方法院", "臺灣臺北地方法院"),
+        ("tw2", "cn", "國立臺灣大學", "国立台湾大学"),
+        ("tw2", "cn", "台北", "台北"),
+    ];
+    for (from, to, source, expected) in cases {
+        let converter = converter(from, to).unwrap();
+        assert_eq!(converter.convert(source), expected, "{from}→{to}: {source}");
+    }
+}
+
+#[test]
 fn built_in_converter_converts_tw_to_cn() {
     let converter = converter("tw", "cn").unwrap();
 

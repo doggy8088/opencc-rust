@@ -405,6 +405,7 @@ pub mod locale {
                 dict_data::TW_VARIANTS_REV,
                 TW_PHRASES_CUSTOM_EXTRA_REV,
                 dict_data::TW_PHRASES_CUSTOM_REV,
+                dict_data::TW2_TAI_REV,
             ])
         }
 
@@ -445,6 +446,7 @@ pub mod locale {
                 dict_data::TW_VARIANTS,
                 TW_PHRASES_CUSTOM_EXTRA,
                 dict_data::TW_PHRASES_CUSTOM,
+                dict_data::TW2_TAI,
             ])
         }
 
@@ -702,4 +704,31 @@ fn has_ignore_class(element: &xmltree::Element) -> bool {
         .get("class")
         .map(|class| class.split_whitespace().any(|item| item == "ignore-opencc"))
         .unwrap_or(false)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{converter, dict_data};
+
+    #[test]
+    fn tw2_tai_keeps_every_proper_noun_in_context() {
+        let mut proper_nouns: Vec<&str> = dict_data::TW2_TAI
+            .lines()
+            .filter_map(|line| line.split('\t').nth(1))
+            .filter(|value| *value != "台")
+            .collect();
+        proper_nouns.dedup();
+        let cn_to_tw2 = converter("cn", "tw2").unwrap();
+        let tw2_to_cn = converter("tw2", "cn").unwrap();
+        let tw_to_tw2 = converter("tw", "tw2").unwrap();
+        let tw2_to_tw2 = converter("tw2", "tw2").unwrap();
+
+        assert!(!proper_nouns.is_empty());
+        for noun in proper_nouns {
+            let text = format!("在{noun}前");
+            assert_eq!(cn_to_tw2.convert(&tw2_to_cn.convert(&text)), text, "cn→tw2: {noun}");
+            assert_eq!(tw_to_tw2.convert(&text), text, "tw→tw2: {noun}");
+            assert_eq!(tw2_to_tw2.convert(&text), text, "tw2→tw2: {noun}");
+        }
+    }
 }
