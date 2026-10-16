@@ -1,6 +1,6 @@
 [package]
 name = "opencc-rs-tw2"
-version = "0.1.1"
+version = "0.1.2"
 edition = "2024"
 description = "Pure Rust port of Will 保哥's C# OpenCC implementation."
 license = "MIT"
