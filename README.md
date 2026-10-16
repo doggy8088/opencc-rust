@@ -33,12 +33,20 @@ cargo --version
 
 ### 加入專案
 
-在 `Cargo.toml` 加入：
+從 [crates.io](https://crates.io/crates/opencc-rs-tw2) 安裝：
+
+```bash
+cargo add opencc-rs-tw2
+```
+
+或在 `Cargo.toml` 加入：
 
 ```toml
 [dependencies]
-opencc-rust = { git = "https://github.com/doggy8088/opencc-rust" }
+opencc-rs-tw2 = "0.1"
 ```
+
+> crates.io 上的 `opencc-rust` 是另一個專案（OpenCC 的 C 函式庫 binding），所以本專案的套件名稱是 `opencc-rs-tw2`。函式庫名稱仍然是 `opencc_rust`，程式碼照常寫 `use opencc_rust::...`。
 
 ### 第一個程式
 

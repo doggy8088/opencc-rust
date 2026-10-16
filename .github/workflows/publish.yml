@@ -1,0 +1,59 @@
+name: publish
+
+# 推送 v* tag 時發布到 crates.io（套件名稱 opencc-rs-tw2）。
+# 用 crates.io Trusted Publishing 換取短期 token，不需要在 repo 存放 API token。
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # crates.io Trusted Publishing（OIDC）
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Read version
+        id: version
+        run: |
+          name=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].name')
+          version=$(cargo metadata --no-deps --format-version 1 | jq -r '.packages[0].version')
+          echo "name=$name" >> "$GITHUB_OUTPUT"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          if [[ "$GITHUB_REF_TYPE" == "tag" && "$GITHUB_REF_NAME" != "v$version" ]]; then
+            echo "::error::tag $GITHUB_REF_NAME 與 Cargo.toml 的版本 $version 不一致"
+            exit 1
+          fi
+
+      - name: Check if version is already published
+        id: check
+        run: |
+          status=$(curl -s -o /dev/null -w '%{http_code}' \
+            -A "opencc-rust publish workflow (https://github.com/${{ github.repository }})" \
+            "https://crates.io/api/v1/crates/${{ steps.version.outputs.name }}/${{ steps.version.outputs.version }}")
+          if [[ "$status" == "200" ]]; then
+            echo "${{ steps.version.outputs.name }} ${{ steps.version.outputs.version }} 已經發布過，略過 cargo publish"
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Test
+        run: cargo test --locked
+
+      # 每次都換一次 token，用來確認 Trusted Publishing 設定仍然有效；job 結束時 action 會自動撤銷 token
+      - name: Authenticate with crates.io
+        id: auth
+        uses: rust-lang/crates-io-auth-action@v1.0.5
+
+      - name: Publish to crates.io
+        if: steps.check.outputs.publish == 'true'
+        run: cargo publish --locked
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
