@@ -36,3 +36,16 @@ cargo run --example html
 ## Regenerating embedded dictionaries
 
 If the upstream C# dictionary changes, regenerate `src/dict_data.rs` from `OpenCC/src/OpenCC/Internal/DictData.cs` and rerun the full test suite. Keep the generated file as a simple constant table; conversion logic belongs in `src/lib.rs`.
+
+## Releasing
+
+`.github/workflows/publish.yml` publishes to crates.io as `opencc-rs-tw2`, using crates.io Trusted Publishing (no API token is stored in the repository).
+
+On every push to `main` it reads the version from `Cargo.toml`:
+
+- No `v<version>` tag yet: run `cargo test --locked`, publish to crates.io, then create the tag and a GitHub Release whose notes list the commits since the previous tag.
+- The tag already exists: skip.
+
+To release, bump `version` in `Cargo.toml` (and `Cargo.lock` via `cargo build`), commit, and push to `main`.
+
+Pushing a `v*` tag manually, or running the workflow with `workflow_dispatch`, also publishes; the GitHub Release is created if it does not exist. The crates.io Trusted Publisher is bound to the file name `publish.yml`, so renaming the workflow requires updating the crate settings on crates.io.

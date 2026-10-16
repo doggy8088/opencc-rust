@@ -1,23 +1,38 @@
 name: publish
 
-# 推送 v* tag 時發布到 crates.io（套件名稱 opencc-rs-tw2）。
-# 用 crates.io Trusted Publishing 換取短期 token，不需要在 repo 存放 API token。
+# 發布到 crates.io（套件名稱 opencc-rs-tw2），用 crates.io Trusted Publishing 換取短期 token，
+# 不需要在 repo 存放 API token。
+#
+# 觸發方式：
+# - push 到 main：Cargo.toml 的版本還沒有 v<版本> tag 時，測試 → 發布 → 建立 tag 與 GitHub Release。
+#   用 GITHUB_TOKEN 建立的 tag 不會再觸發 workflow，所以不會重複執行。
+# - 手動推送 v* tag，或手動 workflow_dispatch：測試並發布，GitHub Release 不存在時一併建立。
+#
+# crates.io 的 Trusted Publisher 綁定這個檔名（publish.yml），改名要同步修改 crates.io 設定。
 on:
   push:
+    branches:
+      - main
     tags:
       - 'v*'
   workflow_dispatch:
+
+concurrency:
+  group: publish
+  cancel-in-progress: false
 
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write # 建立 tag 與 GitHub Release
       id-token: write # crates.io Trusted Publishing（OIDC）
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Read version
         id: version
@@ -30,30 +45,65 @@ jobs:
             echo "::error::tag $GITHUB_REF_NAME 與 Cargo.toml 的版本 $version 不一致"
             exit 1
           fi
+          if [[ "$GITHUB_REF_TYPE" == "branch" && "$GITHUB_EVENT_NAME" == "push" ]] \
+            && git rev-parse -q --verify "refs/tags/v$version" >/dev/null; then
+            echo "v$version 已經發布過，略過"
+            echo "release=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "release=true" >> "$GITHUB_OUTPUT"
+          fi
 
-      - name: Check if version is already published
+      - name: Check if version is already on crates.io
         id: check
+        if: steps.version.outputs.release == 'true'
         run: |
           status=$(curl -s -o /dev/null -w '%{http_code}' \
             -A "opencc-rust publish workflow (https://github.com/${{ github.repository }})" \
             "https://crates.io/api/v1/crates/${{ steps.version.outputs.name }}/${{ steps.version.outputs.version }}")
           if [[ "$status" == "200" ]]; then
-            echo "${{ steps.version.outputs.name }} ${{ steps.version.outputs.version }} 已經發布過，略過 cargo publish"
+            echo "${{ steps.version.outputs.name }} ${{ steps.version.outputs.version }} 已經在 crates.io，略過 cargo publish"
             echo "publish=false" >> "$GITHUB_OUTPUT"
           else
             echo "publish=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Test
+        if: steps.version.outputs.release == 'true'
         run: cargo test --locked
 
-      # 每次都換一次 token，用來確認 Trusted Publishing 設定仍然有效；job 結束時 action 會自動撤銷 token
+      # 只要要發版就換一次 token，用來確認 Trusted Publishing 設定仍然有效；job 結束時 action 會自動撤銷 token
       - name: Authenticate with crates.io
         id: auth
+        if: steps.version.outputs.release == 'true'
         uses: rust-lang/crates-io-auth-action@v1.0.5
 
       - name: Publish to crates.io
-        if: steps.check.outputs.publish == 'true'
+        if: steps.version.outputs.release == 'true' && steps.check.outputs.publish == 'true'
         run: cargo publish --locked
         env:
           CARGO_REGISTRY_TOKEN: ${{ steps.auth.outputs.token }}
+
+      # Release 內容列出上一個 tag 之後的 commit（commit 訊息是 zh-tw）
+      - name: Create tag and GitHub Release
+        if: steps.version.outputs.release == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          if gh release view "v$VERSION" >/dev/null 2>&1; then
+            echo "GitHub Release v$VERSION 已存在，略過"
+            exit 0
+          fi
+          prev=$(git describe --tags --abbrev=0 --match 'v*' --exclude "v$VERSION" HEAD 2>/dev/null || true)
+          {
+            echo "## 變更"
+            echo
+            git log --no-merges --format='- %s (%h)' ${prev:+$prev..}HEAD
+            # 反引號是 Markdown code fence，不是指令替換
+            # shellcheck disable=SC2016
+            printf '\n## 安裝\n\n```toml\n[dependencies]\nopencc-rs-tw2 = "%s"\n```\n' "$VERSION"
+            if [[ -n "$prev" ]]; then
+              printf '\n**Full Changelog**: https://github.com/%s/compare/%s...v%s\n' "$GITHUB_REPOSITORY" "$prev" "$VERSION"
+            fi
+          } > notes.md
+          gh release create "v$VERSION" --target "$GITHUB_SHA" --title "v$VERSION" --notes-file notes.md
