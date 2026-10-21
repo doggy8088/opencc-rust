@@ -1,0 +1,72 @@
+# 台灣詞彙品質改善：提交說明
+
+Rust 核心與 CLI，以及 JavaScript、Python、Swift、C# 的 tw2 / twp，共用此目錄的規則。其他目的 locale、反向字典與 archived 專案維持原有內容。
+
+本次最新政策以保留語意為優先：17 個高風險詞頭預設保留，只有明確白名單片語才轉換。詳見 [兩字詞語意風險分析、方案比較與實測](SEMANTIC_SAFETY.md)。
+
+## 規則與一致性
+
+- 字形修正：賬→帳、羣→群。這是僅有的單字元規則。
+- 直接詞彙：點贊／點讚→按讚、反饋→回饋、遠程→遠端、兼容→相容、硬盤→硬碟、線程→執行緒、短信→簡訊、點擊→點選、發帖→發文、全屏→全螢幕、錄屏→螢幕錄影、充值→儲值。保留網絡→網路、調試→除錯等迴歸基準。
+- 雲端片語：雲電腦、雲盤、雲瀏覽器、雲空間、雲服務、雲存儲／雲儲存。不全域替換單字「雲」。
+- 高風險詞：質量、文本、窗口、站點、小白、登錄、訪問、踩坑、粘貼、黏貼、私信、私聊、打印、項目、保存、通過、套餐。裸詞保留，搭配 160 筆明確白名單與其他已審核語境片語。
+- 範例：視頻質量→影片品質、帳號登錄→帳號登入、瀏覽器窗口→瀏覽器視窗、訪問API→存取API、訪問網站→造訪網站、訂閱套餐→訂閱方案、點擊保存→點選儲存。
+- 反例：物體質量、實價登錄、文學文本、機會窗口、公車站點、訪問學者、保存到博物館、會員套餐等保留。
+- 專名：公眾號、搜一搜、視頻號、小程序保留。社區群／社區羣→社群，避免社群群。
+
+字典群組仍採 Trie 最長匹配，沒有新增執行時逐條替換或模型推論。產生器會修正原有長詞條輸出中的異體字，並覆寫未經審核的高風險上游長詞條，避免它們繞過保守預設。`compound-repairs.json` 記錄前者，`disabled-upstream.json` 記錄後者。
+
+不新增文件、本地、設備、評論、關注、程序、運行、主頁的全域轉換；原有行為保留。未新增可開關的延伸區段。白名單不能處理任意句法與未知專名；未知語境可能漏轉，完整取捨見語意風險分析。
+
+## 更新方式與交付
+
+共用來源為 `opencc-rust/quality/taiwan-rules.json`，產生器依原始 C# 字典與既有補充詞表審核覆寫，再輸出五種語言原始碼與六份驗收語料。產出常數隨獨立套件打包，執行時不需讀取兄弟專案。
+
+```sh
+python3 opencc-rust/tools/generate_taiwan_quality.py
+python3 opencc-rust/tools/generate_taiwan_quality.py --check
+python3 -m unittest discover -s opencc-rust/tools -p 'test_*.py'
+python3 opencc-rust/tools/compare_semantic_quality.py
+```
+
+產生器會拒絕高風險裸詞的全域替換、衝突目標、未審核的單字元擴寫。新增詞條應同時加入正例與反例，不能只追求替換數量。
+
+Rust 核心版本為 0.1.3，CLI 使用相同版本需求。CLI Makefile 偵測到兄弟 opencc-rust 時，使用 Cargo --config patch 測試本機核心。正式 Cargo.toml 維持 registry 依賴，正式發布 CLI 前需先發布核心 0.1.3。發行結果以各專案的 GitHub Release 與套件來源為準。
+
+## 驗證
+
+套件測試共 809 項通過：Rust 24、CLI 57、JavaScript 454、Python 35、Swift 23、C# 216。另有產生器政策檢查 5 項通過。測試框架的項目數不代表語料數；多個套件會在單一測試中遍歷全部共用案例。
+
+包含原始第 1～7 題驗收句、28 組 tw2 迴歸詞、專名與冪等性。新增 180 個語意正反例（121 個保留例、59 個轉換例）在兩個 locale 全部通過；這是人工設計的測試集合，不是整體準確率估計。Rust 另逐筆驗證全部補充字典來源與輸出的冪等性。
+
+```sh
+cargo test --manifest-path opencc-rust/Cargo.toml
+make -C opencc-cli test
+make -C opencc-cli clippy
+# 各套件目錄：
+# opencc-js:    npm test
+# opencc-py:    PYTHONPATH=src python3 -m unittest discover -s tests
+# opencc-swift: swift test
+# OpenCC:      DOTNET_ROLL_FORWARD=Major dotnet test tests/OpenCC.Tests/OpenCC.Tests.csproj
+```
+
+Rust 與 CLI 均通過 Clippy --all-targets -- -D warnings 與 rustfmt。C# 建置目標仍是 net8.0；本機只有 .NET 10 runtime，所以用明確的 major roll-forward 執行測試，未驗證原生 .NET 8 runtime。未提供原始 152 頁文件，因此沒有重掃該文件站的數據。
+
+## 1 MiB 效能對照
+
+Apple M5 Max，rustc 1.99.1，release，cn→tw2。`examples/quality_bench.rs` 使用包含新詞與例外的相同 UTF-8 文本，補空白至恰好 1,048,576 bytes。Converter 建構不計時，暖機 3 次，測量 15 次取中位數。原始版本使用 commit 278e362b2ad19f0fb1239510f441417d28d68939，另建置至暫存目錄，套用同一份 benchmark。
+
+本次保守白名單版本在背景建置結束後，與原始版本交錯執行三輪：
+
+| 輪次 | 原始版本 ms | 保守白名單版本 ms |
+| --- | ---: | ---: |
+| 1 | 8.258 | 8.946 |
+| 2 | 8.202 | 8.884 |
+| 3 | 8.469 | 9.059 |
+| 三輪中位數 | 8.258 | 8.946 |
+
+約增加 8.3%，絕對差約 0.69 ms／MiB。這是與全部修改之前的原始版本比較；不等同於本輪白名單修改單獨增加的耗時。未計入 CLI 啟動與 I/O，也不是所有文本的效能保證。
+
+```sh
+cargo run --release --example quality_bench --manifest-path opencc-rust/Cargo.toml
+```

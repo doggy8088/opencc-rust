@@ -1,0 +1,201 @@
+{
+  "scope": "Constructed contrastive tests only; not a population accuracy estimate.",
+  "case_count": 180,
+  "guarded_word_count": 17,
+  "explicit_whitelist_pairs": 160,
+  "locales": {
+    "tw2": {
+      "by_kind": {
+        "preserve": {
+          "total": 121,
+          "before_correct": 16,
+          "after_correct": 121
+        },
+        "convert": {
+          "total": 59,
+          "before_correct": 54,
+          "after_correct": 59
+        }
+      },
+      "by_category": {
+        "質量": {
+          "total": 21,
+          "before_errors": 14,
+          "after_errors": 0
+        },
+        "文本": {
+          "total": 17,
+          "before_errors": 13,
+          "after_errors": 0
+        },
+        "窗口": {
+          "total": 16,
+          "before_errors": 10,
+          "after_errors": 0
+        },
+        "站點": {
+          "total": 12,
+          "before_errors": 10,
+          "after_errors": 0
+        },
+        "小白": {
+          "total": 13,
+          "before_errors": 8,
+          "after_errors": 0
+        },
+        "登錄": {
+          "total": 16,
+          "before_errors": 9,
+          "after_errors": 0
+        },
+        "訪問": {
+          "total": 14,
+          "before_errors": 9,
+          "after_errors": 0
+        },
+        "踩坑": {
+          "total": 6,
+          "before_errors": 4,
+          "after_errors": 0
+        },
+        "粘貼": {
+          "total": 10,
+          "before_errors": 6,
+          "after_errors": 0
+        },
+        "私信": {
+          "total": 7,
+          "before_errors": 4,
+          "after_errors": 0
+        },
+        "私聊": {
+          "total": 5,
+          "before_errors": 3,
+          "after_errors": 0
+        },
+        "打印": {
+          "total": 5,
+          "before_errors": 2,
+          "after_errors": 0
+        },
+        "保存": {
+          "total": 11,
+          "before_errors": 4,
+          "after_errors": 0
+        },
+        "通過": {
+          "total": 8,
+          "before_errors": 5,
+          "after_errors": 0
+        },
+        "套餐": {
+          "total": 8,
+          "before_errors": 5,
+          "after_errors": 0
+        },
+        "項目": {
+          "total": 11,
+          "before_errors": 4,
+          "after_errors": 0
+        }
+      }
+    },
+    "twp": {
+      "by_kind": {
+        "preserve": {
+          "total": 121,
+          "before_correct": 15,
+          "after_correct": 121
+        },
+        "convert": {
+          "total": 59,
+          "before_correct": 54,
+          "after_correct": 59
+        }
+      },
+      "by_category": {
+        "質量": {
+          "total": 21,
+          "before_errors": 14,
+          "after_errors": 0
+        },
+        "文本": {
+          "total": 17,
+          "before_errors": 13,
+          "after_errors": 0
+        },
+        "窗口": {
+          "total": 16,
+          "before_errors": 10,
+          "after_errors": 0
+        },
+        "站點": {
+          "total": 12,
+          "before_errors": 10,
+          "after_errors": 0
+        },
+        "小白": {
+          "total": 13,
+          "before_errors": 8,
+          "after_errors": 0
+        },
+        "登錄": {
+          "total": 16,
+          "before_errors": 9,
+          "after_errors": 0
+        },
+        "訪問": {
+          "total": 14,
+          "before_errors": 9,
+          "after_errors": 0
+        },
+        "踩坑": {
+          "total": 6,
+          "before_errors": 4,
+          "after_errors": 0
+        },
+        "粘貼": {
+          "total": 10,
+          "before_errors": 6,
+          "after_errors": 0
+        },
+        "私信": {
+          "total": 7,
+          "before_errors": 4,
+          "after_errors": 0
+        },
+        "私聊": {
+          "total": 5,
+          "before_errors": 3,
+          "after_errors": 0
+        },
+        "打印": {
+          "total": 5,
+          "before_errors": 2,
+          "after_errors": 0
+        },
+        "保存": {
+          "total": 11,
+          "before_errors": 4,
+          "after_errors": 0
+        },
+        "通過": {
+          "total": 8,
+          "before_errors": 5,
+          "after_errors": 0
+        },
+        "套餐": {
+          "total": 8,
+          "before_errors": 5,
+          "after_errors": 0
+        },
+        "項目": {
+          "total": 11,
+          "before_errors": 5,
+          "after_errors": 0
+        }
+      }
+    }
+  },
+  "failures": []
+}

@@ -1,0 +1,1083 @@
+[
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "物體的質量是十公斤",
+    "expected": "物體的質量是十公斤"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "質量與重量不同",
+    "expected": "質量與重量不同"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "質量單位",
+    "expected": "質量單位"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "質量大小",
+    "expected": "質量大小"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "質量分布",
+    "expected": "質量分佈"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "質量增加",
+    "expected": "質量增加"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "質量減少",
+    "expected": "質量減少"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "高質量恆星",
+    "expected": "高質量恆星"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "低質量星體",
+    "expected": "低質量星體"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "原子質量",
+    "expected": "原子質量"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "分子質量",
+    "expected": "分子質量"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "相對質量",
+    "expected": "相對質量"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "慣性質量",
+    "expected": "慣性質量"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "質量守恆",
+    "expected": "質量守恆"
+  },
+  {
+    "category": "質量",
+    "kind": "convert",
+    "source": "影片質量不好",
+    "expected": "影片品質不好"
+  },
+  {
+    "category": "質量",
+    "kind": "convert",
+    "source": "視頻質量不好",
+    "expected": "影片品質不好"
+  },
+  {
+    "category": "質量",
+    "kind": "convert",
+    "source": "音訊質量",
+    "expected": "音訊品質"
+  },
+  {
+    "category": "質量",
+    "kind": "convert",
+    "source": "服務質量",
+    "expected": "服務品質"
+  },
+  {
+    "category": "質量",
+    "kind": "preserve",
+    "source": "產品質量",
+    "expected": "產品質量"
+  },
+  {
+    "category": "質量",
+    "kind": "convert",
+    "source": "軟體質量",
+    "expected": "軟體品質"
+  },
+  {
+    "category": "質量",
+    "kind": "convert",
+    "source": "照片質量",
+    "expected": "照片品質"
+  },
+  {
+    "category": "文本",
+    "kind": "preserve",
+    "source": "文學文本",
+    "expected": "文學文本"
+  },
+  {
+    "category": "文本",
+    "kind": "preserve",
+    "source": "法律文本",
+    "expected": "法律文本"
+  },
+  {
+    "category": "文本",
+    "kind": "preserve",
+    "source": "合約文本",
+    "expected": "合約文本"
+  },
+  {
+    "category": "文本",
+    "kind": "preserve",
+    "source": "歷史文本",
+    "expected": "歷史文本"
+  },
+  {
+    "category": "文本",
+    "kind": "preserve",
+    "source": "文本批評",
+    "expected": "文本批評"
+  },
+  {
+    "category": "文本",
+    "kind": "preserve",
+    "source": "文本研究",
+    "expected": "文本研究"
+  },
+  {
+    "category": "文本",
+    "kind": "preserve",
+    "source": "文本解讀",
+    "expected": "文本解讀"
+  },
+  {
+    "category": "文本",
+    "kind": "preserve",
+    "source": "文本比較",
+    "expected": "文本比較"
+  },
+  {
+    "category": "文本",
+    "kind": "preserve",
+    "source": "文本分析",
+    "expected": "文本分析"
+  },
+  {
+    "category": "文本",
+    "kind": "preserve",
+    "source": "敘事文本",
+    "expected": "敘事文本"
+  },
+  {
+    "category": "文本",
+    "kind": "preserve",
+    "source": "原始文本",
+    "expected": "原始文本"
+  },
+  {
+    "category": "文本",
+    "kind": "preserve",
+    "source": "文本",
+    "expected": "文本"
+  },
+  {
+    "category": "文本",
+    "kind": "convert",
+    "source": "純文本",
+    "expected": "純文字"
+  },
+  {
+    "category": "文本",
+    "kind": "convert",
+    "source": "文本框",
+    "expected": "文字方塊"
+  },
+  {
+    "category": "文本",
+    "kind": "convert",
+    "source": "文本編輯器",
+    "expected": "文字編輯器"
+  },
+  {
+    "category": "文本",
+    "kind": "convert",
+    "source": "錄屏文本",
+    "expected": "螢幕錄影文字"
+  },
+  {
+    "category": "文本",
+    "kind": "convert",
+    "source": "輸入文本",
+    "expected": "輸入文字"
+  },
+  {
+    "category": "窗口",
+    "kind": "preserve",
+    "source": "機會窗口",
+    "expected": "機會窗口"
+  },
+  {
+    "category": "窗口",
+    "kind": "preserve",
+    "source": "時間窗口",
+    "expected": "時間窗口"
+  },
+  {
+    "category": "窗口",
+    "kind": "preserve",
+    "source": "政策窗口",
+    "expected": "政策窗口"
+  },
+  {
+    "category": "窗口",
+    "kind": "preserve",
+    "source": "銀行窗口",
+    "expected": "銀行窗口"
+  },
+  {
+    "category": "窗口",
+    "kind": "preserve",
+    "source": "辦事窗口",
+    "expected": "辦事窗口"
+  },
+  {
+    "category": "窗口",
+    "kind": "preserve",
+    "source": "窗口服務",
+    "expected": "窗口服務"
+  },
+  {
+    "category": "窗口",
+    "kind": "preserve",
+    "source": "農舍窗口",
+    "expected": "農舍窗口"
+  },
+  {
+    "category": "窗口",
+    "kind": "preserve",
+    "source": "窗口大小",
+    "expected": "窗口大小"
+  },
+  {
+    "category": "窗口",
+    "kind": "preserve",
+    "source": "窗口",
+    "expected": "窗口"
+  },
+  {
+    "category": "窗口",
+    "kind": "preserve",
+    "source": "售票窗口",
+    "expected": "售票窗口"
+  },
+  {
+    "category": "窗口",
+    "kind": "preserve",
+    "source": "聯絡窗口",
+    "expected": "聯絡窗口"
+  },
+  {
+    "category": "窗口",
+    "kind": "convert",
+    "source": "瀏覽器窗口",
+    "expected": "瀏覽器視窗"
+  },
+  {
+    "category": "窗口",
+    "kind": "convert",
+    "source": "彈出窗口",
+    "expected": "彈出視窗"
+  },
+  {
+    "category": "窗口",
+    "kind": "convert",
+    "source": "應用程式窗口",
+    "expected": "應用程式視窗"
+  },
+  {
+    "category": "窗口",
+    "kind": "convert",
+    "source": "終端窗口",
+    "expected": "終端視窗"
+  },
+  {
+    "category": "窗口",
+    "kind": "convert",
+    "source": "對話窗口",
+    "expected": "對話視窗"
+  },
+  {
+    "category": "站點",
+    "kind": "preserve",
+    "source": "公車站點",
+    "expected": "公車站點"
+  },
+  {
+    "category": "站點",
+    "kind": "preserve",
+    "source": "捷運站點",
+    "expected": "捷運站點"
+  },
+  {
+    "category": "站點",
+    "kind": "preserve",
+    "source": "物流站點",
+    "expected": "物流站點"
+  },
+  {
+    "category": "站點",
+    "kind": "preserve",
+    "source": "地震觀測站點",
+    "expected": "地震觀測站點"
+  },
+  {
+    "category": "站點",
+    "kind": "preserve",
+    "source": "沿途站點",
+    "expected": "沿途站點"
+  },
+  {
+    "category": "站點",
+    "kind": "preserve",
+    "source": "站點位置",
+    "expected": "站點位置"
+  },
+  {
+    "category": "站點",
+    "kind": "preserve",
+    "source": "站點地圖",
+    "expected": "站點地圖"
+  },
+  {
+    "category": "站點",
+    "kind": "preserve",
+    "source": "站點數量",
+    "expected": "站點數量"
+  },
+  {
+    "category": "站點",
+    "kind": "preserve",
+    "source": "站點",
+    "expected": "站點"
+  },
+  {
+    "category": "站點",
+    "kind": "convert",
+    "source": "Web站點",
+    "expected": "Web網站"
+  },
+  {
+    "category": "站點",
+    "kind": "convert",
+    "source": "訪問站點",
+    "expected": "造訪網站"
+  },
+  {
+    "category": "站點",
+    "kind": "convert",
+    "source": "站點域名",
+    "expected": "網站網域名稱"
+  },
+  {
+    "category": "小白",
+    "kind": "preserve",
+    "source": "小白",
+    "expected": "小白"
+  },
+  {
+    "category": "小白",
+    "kind": "preserve",
+    "source": "小白花",
+    "expected": "小白花"
+  },
+  {
+    "category": "小白",
+    "kind": "preserve",
+    "source": "小白狗",
+    "expected": "小白狗"
+  },
+  {
+    "category": "小白",
+    "kind": "preserve",
+    "source": "小白雲",
+    "expected": "小白雲"
+  },
+  {
+    "category": "小白",
+    "kind": "preserve",
+    "source": "小白鞋",
+    "expected": "小白鞋"
+  },
+  {
+    "category": "小白",
+    "kind": "preserve",
+    "source": "小白老師",
+    "expected": "小白老師"
+  },
+  {
+    "category": "小白",
+    "kind": "preserve",
+    "source": "小白說你好",
+    "expected": "小白說你好"
+  },
+  {
+    "category": "小白",
+    "kind": "preserve",
+    "source": "小白菜",
+    "expected": "小白菜"
+  },
+  {
+    "category": "小白",
+    "kind": "preserve",
+    "source": "小白鼠",
+    "expected": "小白鼠"
+  },
+  {
+    "category": "小白",
+    "kind": "convert",
+    "source": "電腦小白",
+    "expected": "電腦新手"
+  },
+  {
+    "category": "小白",
+    "kind": "convert",
+    "source": "程式設計小白",
+    "expected": "程式設計新手"
+  },
+  {
+    "category": "小白",
+    "kind": "convert",
+    "source": "零基礎小白",
+    "expected": "零基礎新手"
+  },
+  {
+    "category": "小白",
+    "kind": "convert",
+    "source": "小白教程",
+    "expected": "新手教學"
+  },
+  {
+    "category": "登錄",
+    "kind": "preserve",
+    "source": "實價登錄",
+    "expected": "實價登錄"
+  },
+  {
+    "category": "登錄",
+    "kind": "preserve",
+    "source": "文物登錄",
+    "expected": "文物登錄"
+  },
+  {
+    "category": "登錄",
+    "kind": "preserve",
+    "source": "戶籍登錄",
+    "expected": "戶籍登錄"
+  },
+  {
+    "category": "登錄",
+    "kind": "preserve",
+    "source": "資料登錄",
+    "expected": "資料登錄"
+  },
+  {
+    "category": "登錄",
+    "kind": "preserve",
+    "source": "登錄資料",
+    "expected": "登錄資料"
+  },
+  {
+    "category": "登錄",
+    "kind": "preserve",
+    "source": "申報登錄",
+    "expected": "申報登錄"
+  },
+  {
+    "category": "登錄",
+    "kind": "preserve",
+    "source": "登錄名冊",
+    "expected": "登錄名冊"
+  },
+  {
+    "category": "登錄",
+    "kind": "preserve",
+    "source": "登錄日期",
+    "expected": "登錄日期"
+  },
+  {
+    "category": "登錄",
+    "kind": "preserve",
+    "source": "登錄",
+    "expected": "登錄"
+  },
+  {
+    "category": "登錄",
+    "kind": "preserve",
+    "source": "登錄檔",
+    "expected": "登錄檔"
+  },
+  {
+    "category": "登錄",
+    "kind": "convert",
+    "source": "帳號登錄",
+    "expected": "帳號登入"
+  },
+  {
+    "category": "登錄",
+    "kind": "convert",
+    "source": "自動登錄",
+    "expected": "自動登入"
+  },
+  {
+    "category": "登錄",
+    "kind": "convert",
+    "source": "登錄按鈕",
+    "expected": "登入按鈕"
+  },
+  {
+    "category": "登錄",
+    "kind": "convert",
+    "source": "登錄帳號",
+    "expected": "登入帳號"
+  },
+  {
+    "category": "登錄",
+    "kind": "convert",
+    "source": "登錄頁面",
+    "expected": "登入頁面"
+  },
+  {
+    "category": "登錄",
+    "kind": "convert",
+    "source": "登錄後看不到",
+    "expected": "登入後看不到"
+  },
+  {
+    "category": "訪問",
+    "kind": "preserve",
+    "source": "訪問學者",
+    "expected": "訪問學者"
+  },
+  {
+    "category": "訪問",
+    "kind": "preserve",
+    "source": "出國訪問",
+    "expected": "出國訪問"
+  },
+  {
+    "category": "訪問",
+    "kind": "preserve",
+    "source": "友好訪問",
+    "expected": "友好訪問"
+  },
+  {
+    "category": "訪問",
+    "kind": "preserve",
+    "source": "國是訪問",
+    "expected": "國是訪問"
+  },
+  {
+    "category": "訪問",
+    "kind": "preserve",
+    "source": "訪問總統",
+    "expected": "訪問總統"
+  },
+  {
+    "category": "訪問",
+    "kind": "preserve",
+    "source": "訪問日本",
+    "expected": "訪問日本"
+  },
+  {
+    "category": "訪問",
+    "kind": "preserve",
+    "source": "訪問團",
+    "expected": "訪問團"
+  },
+  {
+    "category": "訪問",
+    "kind": "preserve",
+    "source": "訪問",
+    "expected": "訪問"
+  },
+  {
+    "category": "訪問",
+    "kind": "preserve",
+    "source": "參加訪問活動",
+    "expected": "參加訪問活動"
+  },
+  {
+    "category": "訪問",
+    "kind": "convert",
+    "source": "訪問API",
+    "expected": "存取API"
+  },
+  {
+    "category": "訪問",
+    "kind": "convert",
+    "source": "訪問系統",
+    "expected": "存取系統"
+  },
+  {
+    "category": "訪問",
+    "kind": "convert",
+    "source": "訪問檔案",
+    "expected": "存取檔案"
+  },
+  {
+    "category": "訪問",
+    "kind": "convert",
+    "source": "訪問網站",
+    "expected": "造訪網站"
+  },
+  {
+    "category": "訪問",
+    "kind": "convert",
+    "source": "訪問頁面",
+    "expected": "造訪頁面"
+  },
+  {
+    "category": "踩坑",
+    "kind": "preserve",
+    "source": "山路踩坑",
+    "expected": "山路踩坑"
+  },
+  {
+    "category": "踩坑",
+    "kind": "preserve",
+    "source": "工地踩坑",
+    "expected": "工地踩坑"
+  },
+  {
+    "category": "踩坑",
+    "kind": "preserve",
+    "source": "昨天踩坑",
+    "expected": "昨天踩坑"
+  },
+  {
+    "category": "踩坑",
+    "kind": "preserve",
+    "source": "踩坑",
+    "expected": "踩坑"
+  },
+  {
+    "category": "踩坑",
+    "kind": "convert",
+    "source": "開發踩坑",
+    "expected": "開發踩雷"
+  },
+  {
+    "category": "踩坑",
+    "kind": "convert",
+    "source": "踩坑經驗",
+    "expected": "踩雷經驗"
+  },
+  {
+    "category": "粘貼",
+    "kind": "preserve",
+    "source": "海報粘貼",
+    "expected": "海報粘貼"
+  },
+  {
+    "category": "粘貼",
+    "kind": "preserve",
+    "source": "把海報粘貼在牆上",
+    "expected": "把海報粘貼在牆上"
+  },
+  {
+    "category": "粘貼",
+    "kind": "preserve",
+    "source": "封箱黏貼",
+    "expected": "封箱黏貼"
+  },
+  {
+    "category": "粘貼",
+    "kind": "preserve",
+    "source": "黏貼標籤",
+    "expected": "黏貼標記",
+    "expected_twp": "黏貼標籤"
+  },
+  {
+    "category": "粘貼",
+    "kind": "preserve",
+    "source": "黏貼",
+    "expected": "黏貼"
+  },
+  {
+    "category": "粘貼",
+    "kind": "preserve",
+    "source": "粘貼",
+    "expected": "粘貼"
+  },
+  {
+    "category": "粘貼",
+    "kind": "convert",
+    "source": "複製粘貼",
+    "expected": "複製貼上"
+  },
+  {
+    "category": "粘貼",
+    "kind": "convert",
+    "source": "粘貼網址",
+    "expected": "貼上網址"
+  },
+  {
+    "category": "粘貼",
+    "kind": "convert",
+    "source": "從剪貼簿粘貼",
+    "expected": "從剪貼簿貼上"
+  },
+  {
+    "category": "粘貼",
+    "kind": "convert",
+    "source": "粘貼程式碼",
+    "expected": "貼上程式碼"
+  },
+  {
+    "category": "私信",
+    "kind": "preserve",
+    "source": "家書與私信",
+    "expected": "家書與私信"
+  },
+  {
+    "category": "私信",
+    "kind": "preserve",
+    "source": "歷史人物的私信",
+    "expected": "歷史人物的私信"
+  },
+  {
+    "category": "私信",
+    "kind": "preserve",
+    "source": "收藏私信",
+    "expected": "收藏私信"
+  },
+  {
+    "category": "私信",
+    "kind": "preserve",
+    "source": "私信",
+    "expected": "私信"
+  },
+  {
+    "category": "私信",
+    "kind": "convert",
+    "source": "私信我",
+    "expected": "私訊我"
+  },
+  {
+    "category": "私信",
+    "kind": "convert",
+    "source": "私信功能",
+    "expected": "私訊功能"
+  },
+  {
+    "category": "私信",
+    "kind": "convert",
+    "source": "私信通知",
+    "expected": "私訊通知"
+  },
+  {
+    "category": "私聊",
+    "kind": "preserve",
+    "source": "飯後私聊幾句",
+    "expected": "飯後私聊幾句"
+  },
+  {
+    "category": "私聊",
+    "kind": "preserve",
+    "source": "私聊往事",
+    "expected": "私聊往事"
+  },
+  {
+    "category": "私聊",
+    "kind": "preserve",
+    "source": "私聊",
+    "expected": "私聊"
+  },
+  {
+    "category": "私聊",
+    "kind": "convert",
+    "source": "私聊功能",
+    "expected": "私訊功能"
+  },
+  {
+    "category": "私聊",
+    "kind": "convert",
+    "source": "私聊訊息",
+    "expected": "私訊訊息"
+  },
+  {
+    "category": "打印",
+    "kind": "preserve",
+    "source": "打印",
+    "expected": "打印"
+  },
+  {
+    "category": "打印",
+    "kind": "preserve",
+    "source": "心中打印著回憶",
+    "expected": "心中打印著回憶"
+  },
+  {
+    "category": "打印",
+    "kind": "convert",
+    "source": "遠程打印",
+    "expected": "遠端列印"
+  },
+  {
+    "category": "打印",
+    "kind": "convert",
+    "source": "打印照片",
+    "expected": "列印照片"
+  },
+  {
+    "category": "打印",
+    "kind": "convert",
+    "source": "打印圖片",
+    "expected": "列印圖片"
+  },
+  {
+    "category": "保存",
+    "kind": "preserve",
+    "source": "保存到博物館",
+    "expected": "保存到博物館"
+  },
+  {
+    "category": "保存",
+    "kind": "preserve",
+    "source": "保存至今",
+    "expected": "保存至今"
+  },
+  {
+    "category": "保存",
+    "kind": "preserve",
+    "source": "立即保存文物",
+    "expected": "立即保存文物"
+  },
+  {
+    "category": "保存",
+    "kind": "preserve",
+    "source": "確認保存證據",
+    "expected": "確認保存證據"
+  },
+  {
+    "category": "保存",
+    "kind": "preserve",
+    "source": "保存文化遺產",
+    "expected": "保存文化遺產"
+  },
+  {
+    "category": "保存",
+    "kind": "preserve",
+    "source": "保存期限",
+    "expected": "保存期限"
+  },
+  {
+    "category": "保存",
+    "kind": "preserve",
+    "source": "保存方法",
+    "expected": "保存方法"
+  },
+  {
+    "category": "保存",
+    "kind": "preserve",
+    "source": "保存食物",
+    "expected": "保存食物"
+  },
+  {
+    "category": "保存",
+    "kind": "convert",
+    "source": "點擊保存",
+    "expected": "點選儲存"
+  },
+  {
+    "category": "保存",
+    "kind": "convert",
+    "source": "自動保存",
+    "expected": "自動儲存"
+  },
+  {
+    "category": "保存",
+    "kind": "convert",
+    "source": "保存設定",
+    "expected": "儲存設定"
+  },
+  {
+    "category": "通過",
+    "kind": "preserve",
+    "source": "通過這個考試",
+    "expected": "通過這個考試"
+  },
+  {
+    "category": "通過",
+    "kind": "preserve",
+    "source": "通過此項審查",
+    "expected": "通過此項審查"
+  },
+  {
+    "category": "通過",
+    "kind": "preserve",
+    "source": "通過系統驗證",
+    "expected": "通過系統驗證"
+  },
+  {
+    "category": "通過",
+    "kind": "preserve",
+    "source": "通過網路認證",
+    "expected": "通過網路認證"
+  },
+  {
+    "category": "通過",
+    "kind": "preserve",
+    "source": "通過該次測試",
+    "expected": "通過該次測試"
+  },
+  {
+    "category": "通過",
+    "kind": "preserve",
+    "source": "通過海關",
+    "expected": "通過海關"
+  },
+  {
+    "category": "通過",
+    "kind": "convert",
+    "source": "通過網路存取",
+    "expected": "透過網路存取"
+  },
+  {
+    "category": "通過",
+    "kind": "convert",
+    "source": "通過API呼叫",
+    "expected": "透過API呼叫"
+  },
+  {
+    "category": "套餐",
+    "kind": "preserve",
+    "source": "會員套餐",
+    "expected": "會員套餐"
+  },
+  {
+    "category": "套餐",
+    "kind": "preserve",
+    "source": "套餐價格",
+    "expected": "套餐價格"
+  },
+  {
+    "category": "套餐",
+    "kind": "preserve",
+    "source": "餐廳套餐",
+    "expected": "餐廳套餐"
+  },
+  {
+    "category": "套餐",
+    "kind": "preserve",
+    "source": "一份套餐",
+    "expected": "一份套餐"
+  },
+  {
+    "category": "套餐",
+    "kind": "preserve",
+    "source": "付費套餐",
+    "expected": "付費套餐"
+  },
+  {
+    "category": "套餐",
+    "kind": "convert",
+    "source": "訂閱套餐",
+    "expected": "訂閱方案"
+  },
+  {
+    "category": "套餐",
+    "kind": "convert",
+    "source": "雲電腦套餐",
+    "expected": "雲端電腦方案"
+  },
+  {
+    "category": "套餐",
+    "kind": "convert",
+    "source": "API套餐",
+    "expected": "API方案"
+  },
+  {
+    "category": "項目",
+    "kind": "preserve",
+    "source": "測試項目",
+    "expected": "測試項目"
+  },
+  {
+    "category": "項目",
+    "kind": "preserve",
+    "source": "管理項目",
+    "expected": "管理項目"
+  },
+  {
+    "category": "項目",
+    "kind": "preserve",
+    "source": "維護項目",
+    "expected": "維護項目"
+  },
+  {
+    "category": "項目",
+    "kind": "preserve",
+    "source": "建立項目",
+    "expected": "建立項目"
+  },
+  {
+    "category": "項目",
+    "kind": "preserve",
+    "source": "檢查項目",
+    "expected": "檢查項目"
+  },
+  {
+    "category": "項目",
+    "kind": "preserve",
+    "source": "比賽項目",
+    "expected": "比賽項目"
+  },
+  {
+    "category": "項目",
+    "kind": "preserve",
+    "source": "每個項目",
+    "expected": "每個項目"
+  },
+  {
+    "category": "項目",
+    "kind": "preserve",
+    "source": "項目",
+    "expected": "項目"
+  },
+  {
+    "category": "項目",
+    "kind": "convert",
+    "source": "軟體項目",
+    "expected": "軟體專案"
+  },
+  {
+    "category": "項目",
+    "kind": "convert",
+    "source": "開源項目",
+    "expected": "開源專案"
+  },
+  {
+    "category": "項目",
+    "kind": "convert",
+    "source": "項目程式碼",
+    "expected": "專案程式碼"
+  }
+]

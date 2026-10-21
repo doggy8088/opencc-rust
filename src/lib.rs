@@ -1,4 +1,5 @@
 mod dict_data;
+mod taiwan_quality;
 
 use std::borrow::Cow;
 use std::collections::HashMap;
@@ -34,7 +35,6 @@ const TW_PHRASES_CUSTOM_EXTRA_REV: &str = r####"
 網路堆疊	網絡棧
 網路介面卡	網絡適配器
 "####;
-
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum OpenCCError {
@@ -194,7 +194,7 @@ impl Trie {
     }
 
     pub fn load_dict_str(&mut self, dict: &str) {
-        for line in dict.split(|c| c == '|' || c == '\n') {
+        for line in dict.split(['|', '\n']) {
             let line = line.trim();
             if line.is_empty() {
                 continue;
@@ -428,6 +428,7 @@ pub mod locale {
 
     pub mod to {
         use super::{DictGroup, TW_PHRASES_CUSTOM_EXTRA, dict_data};
+        use crate::taiwan_quality;
 
         pub fn cn() -> DictGroup {
             DictGroup::from_strings([dict_data::TS_CHARACTERS, dict_data::TS_PHRASES])
@@ -447,6 +448,7 @@ pub mod locale {
                 TW_PHRASES_CUSTOM_EXTRA,
                 dict_data::TW_PHRASES_CUSTOM,
                 dict_data::TW2_TAI,
+                taiwan_quality::TW2,
             ])
         }
 
@@ -456,6 +458,7 @@ pub mod locale {
                 dict_data::TW_PHRASES_IT,
                 dict_data::TW_PHRASES_NAME,
                 dict_data::TW_PHRASES_OTHER,
+                taiwan_quality::TWP,
             ])
         }
 
@@ -660,10 +663,9 @@ fn convert_element(
         if element.name.eq_ignore_ascii_case("meta") {
             let name = element.attributes.get("name").cloned();
             if matches!(name.as_deref(), Some(name) if name.eq_ignore_ascii_case("description") || name.eq_ignore_ascii_case("keywords"))
+                && let Some(content) = element.attributes.get_mut("content")
             {
-                if let Some(content) = element.attributes.get_mut("content") {
-                    *content = converter.convert(content);
-                }
+                *content = converter.convert(content);
             }
         } else if element.name.eq_ignore_ascii_case("img") {
             if let Some(alt) = element.attributes.get_mut("alt") {
@@ -671,10 +673,10 @@ fn convert_element(
             }
         } else if element.name.eq_ignore_ascii_case("input") {
             let input_type = element.attributes.get("type").cloned();
-            if matches!(input_type.as_deref(), Some(kind) if kind.eq_ignore_ascii_case("button")) {
-                if let Some(value) = element.attributes.get_mut("value") {
-                    *value = converter.convert(value);
-                }
+            if matches!(input_type.as_deref(), Some(kind) if kind.eq_ignore_ascii_case("button"))
+                && let Some(value) = element.attributes.get_mut("value")
+            {
+                *value = converter.convert(value);
             }
         }
     }
@@ -711,6 +713,22 @@ mod tests {
     use super::{converter, dict_data};
 
     #[test]
+    fn taiwan_quality_entries_survive_source_conversion_and_are_idempotent() {
+        for (locale, data) in [
+            ("tw2", crate::taiwan_quality::TW2),
+            ("twp", crate::taiwan_quality::TWP),
+        ] {
+            let c = converter("cn", locale).unwrap();
+            for line in data.lines() {
+                let (source, target) = line.split_once('\t').unwrap();
+                assert_eq!(c.convert(source), target, "{locale}: {source}");
+                assert_eq!(c.convert(target), target, "idempotence {locale}: {target}");
+                assert!(!target.contains(['賬', '羣']), "{locale}: {target}");
+            }
+        }
+    }
+
+    #[test]
     fn tw2_tai_keeps_every_proper_noun_in_context() {
         let mut proper_nouns: Vec<&str> = dict_data::TW2_TAI
             .lines()
@@ -726,7 +744,11 @@ mod tests {
         assert!(!proper_nouns.is_empty());
         for noun in proper_nouns {
             let text = format!("在{noun}前");
-            assert_eq!(cn_to_tw2.convert(&tw2_to_cn.convert(&text)), text, "cn→tw2: {noun}");
+            assert_eq!(
+                cn_to_tw2.convert(&tw2_to_cn.convert(&text)),
+                text,
+                "cn→tw2: {noun}"
+            );
             assert_eq!(tw_to_tw2.convert(&text), text, "tw→tw2: {noun}");
             assert_eq!(tw2_to_tw2.convert(&text), text, "tw2→tw2: {noun}");
         }

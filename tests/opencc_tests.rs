@@ -61,7 +61,7 @@ fn built_in_converter_converts_preferred_taiwan_terms_to_tw2() {
         ("镜像文件", "映像檔"),
         ("保存更改", "儲存變更"),
         ("信息", "資訊"),
-        ("质量", "品質"),
+        ("质量", "質量"),
         ("用户", "使用者"),
         ("默认", "預設"),
         ("创建", "建立"),
@@ -133,9 +133,9 @@ fn built_in_converter_converts_cn_to_tw2_project_compounds() {
     let converter = converter("cn", "tw2").unwrap();
     let cases = [
         ("项目文件夹", "專案資料夾"),
-        ("项目的", "專案的"),
+        ("项目的", "項目的"),
         ("项目目录", "專案目錄"),
-        ("项目管理", "專案管理"),
+        ("项目管理", "項目管理"),
         ("项目设置", "專案設定"),
     ];
 
@@ -221,10 +221,7 @@ fn built_in_converter_uses_ping_tai_not_ping_tai_in_tw2() {
 
     // tw2 → cn reverse: 平台 maps back to 平台
     let tw2_to_cn = converter("tw2", "cn").unwrap();
-    let rev_cases = [
-        ("跨平台", "跨平台"),
-        ("軟體平台", "软件平台"),
-    ];
+    let rev_cases = [("跨平台", "跨平台"), ("軟體平台", "软件平台")];
     for (source, expected) in rev_cases {
         assert_eq!(tw2_to_cn.convert(source), expected, "tw2→cn: {source}");
     }
