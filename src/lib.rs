@@ -381,9 +381,14 @@ pub mod locale {
 
     pub mod from {
         use super::{DictGroup, TW_PHRASES_CUSTOM_EXTRA_REV, dict_data};
+        use crate::taiwan_quality;
 
         pub fn cn() -> DictGroup {
-            DictGroup::from_strings([dict_data::ST_CHARACTERS, dict_data::ST_PHRASES])
+            DictGroup::from_strings([
+                dict_data::ST_CHARACTERS,
+                dict_data::ST_PHRASES,
+                taiwan_quality::CN,
+            ])
         }
 
         pub fn hk() -> DictGroup {
@@ -724,6 +729,40 @@ mod tests {
                 assert_eq!(c.convert(source), target, "{locale}: {source}");
                 assert_eq!(c.convert(target), target, "idempotence {locale}: {target}");
                 assert!(!target.contains(['賬', '羣']), "{locale}: {target}");
+            }
+        }
+    }
+
+    #[test]
+    fn cn_source_patch_keeps_gan_for_every_target_locale() {
+        for locale in ["tw", "tw2", "twp", "hk"] {
+            let c = converter("cn", locale).unwrap();
+            for input in ["干擾", "干扰", "政府干預", "政府干预", "被干擾", "輪流干擾"]
+            {
+                let output = c.convert(input);
+                assert!(
+                    output.contains("干擾") || output.contains("干預"),
+                    "{locale}: {input} -> {output}"
+                );
+            }
+            for line in crate::taiwan_quality::CN.lines() {
+                let (source, target) = line.split_once('\t').unwrap();
+                let converted = c.convert(source);
+                assert_eq!(
+                    c.convert(&converted),
+                    converted,
+                    "idempotence {locale}: {source}"
+                );
+                if locale == "tw" || locale == "hk" {
+                    continue;
+                }
+                // Target-locale variants may follow, but the 干 decision must survive.
+                let gan = |text: &str| text.chars().filter(|ch| *ch == '干').count();
+                assert_eq!(
+                    gan(&converted),
+                    gan(target),
+                    "{locale}: {source} -> {converted}"
+                );
             }
         }
     }

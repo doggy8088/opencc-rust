@@ -34,6 +34,24 @@ class PolicyValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'Conflicting targets'):
             validate_rules(self.rules)
 
+    def test_source_phrase_needs_context_around_the_character(self):
+        for pair in (['干', '幹'], ['餅乾', '餅乾']):
+            with self.subTest(pair=pair):
+                rules = copy.deepcopy(self.rules)
+                rules['source_cn']['phrases'].append(pair)
+                with self.assertRaisesRegex(ValueError, 'explicit context'):
+                    validate_rules(rules)
+
+    def test_source_phrase_must_keep_length(self):
+        self.rules['source_cn']['phrases'].append(['干拌面', '乾拌麵條'])
+        with self.assertRaisesRegex(ValueError, 'character by character'):
+            validate_rules(self.rules)
+
+    def test_source_guard_prefix_cannot_contain_the_character(self):
+        self.rules['source_cn']['guard_prefixes'].append('干')
+        with self.assertRaisesRegex(ValueError, 'Guard prefix'):
+            validate_rules(self.rules)
+
     def test_bare_word_cannot_be_disguised_as_whitelist(self):
         self.rules['guarded'][0]['allow'].append(['質量', '品質'])
         with self.assertRaisesRegex(ValueError, 'longer context'):

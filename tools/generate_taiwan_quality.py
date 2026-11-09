@@ -33,6 +33,70 @@ def validate_rules(rules):
         if key in seen and seen[key] != value:
             raise ValueError(f'Conflicting targets for {key}: {seen[key]} / {value}')
         seen[key] = value
+    validate_source_cn(rules['source_cn'])
+
+
+def validate_source_cn(config):
+    """Source patches must stay narrow: explicit context around one reviewed character."""
+    char = config['char']
+    if len(char) != 1:
+        raise ValueError(f'Source patch needs exactly one character: {char}')
+    for tail in config['guard_tails']:
+        if len(tail) != 1:
+            raise ValueError(f'Guard tail must be one character: {tail}')
+    for prefix in config['guard_prefixes']:
+        if not prefix or char in prefix:
+            raise ValueError(f'Guard prefix must precede {char}: {prefix}')
+    seen = {}
+    for key, value in config['phrases']:
+        if len(key) < 2 or char not in key:
+            raise ValueError(f'Source phrase needs {char} with explicit context: {key}')
+        if len(key) != len(value):
+            raise ValueError(f'Source phrase must convert character by character: {key}')
+        if key in seen and seen[key] != value:
+            raise ValueError(f'Conflicting targets for {key}: {seen[key]} / {value}')
+        seen[key] = value
+
+
+def source_cn_patch(config, constants):
+    """Patch the shared cn source group for characters valid in both scripts.
+
+    干 is both a Simplified and a Traditional character, but STCharacters maps
+    it to 幹. Without these entries, already-Traditional input such as 干擾
+    misses the Simplified-only key 干扰, and keys ending in 干 (府干, 被干)
+    swallow the 干 of a following 干擾/干預/干涉.
+    """
+    char = config['char']
+    first = lambda value: value.split(' ')[0]
+    upstream = {key: first(value) for key, value in entries(constants['STPhrases'])}
+    s2t = {key: first(value) for key, value in entries(constants['STCharacters'])}
+    s2t.update(upstream)
+    variants = dict(entries(constants['TWVariants']))
+    patch = {}
+    # Upstream verb keys such as 府干/被干 swallow the 干 of 干擾/干預/干涉.
+    # Only reviewed adverb/function-word prefixes are guarded: after a noun
+    # (餅干, 骨干) the tail may start another word, e.g. 餅乾預計.
+    for prefix in config['guard_prefixes']:
+        key = prefix + char
+        value = upstream.get(key, '')
+        if len(value) != len(key) or value.endswith(char):
+            raise ValueError(f'Guard prefix needs an upstream {char} key: {key}')
+        for tail in config['guard_tails']:
+            if key + tail not in upstream:
+                patch[key + tail] = value[:-1] + char + replace(tail, s2t)
+    patch.update(config['phrases'])
+    # Traditional input is already final: keep every Traditional form as-is
+    # (輪流干擾 would otherwise hit the upstream key 流干).
+    for key, value in list(upstream.items()) + list(patch.items()):
+        if char in value and value != key:
+            for form in (value, replace(value, variants)):
+                if form not in upstream:
+                    patch.setdefault(form, form)
+    convert = {**s2t, **patch}
+    for key, value in patch.items():
+        if replace(key, convert) != value or replace(value, convert) != value:
+            raise ValueError(f'Source patch is not stable: {key} -> {value}')
+    return patch
 
 
 def entries(text):
@@ -100,7 +164,8 @@ def main():
     # Include every implementation's existing custom additions in the audit.
     additions = (ROOT / 'opencc-py/src/opencc_py/locale_data.py').read_text()
     additions = re.search(r'TW_PHRASES_CUSTOM_ADDITIONS = """(.*?)"""', additions, re.S)[1]
-    patches = {}
+    cn_patch = source_cn_patch(rules['source_cn'], constants)
+    patches = {'cn': '\n'.join(k + '\t' + v for k, v in sorted(cn_patch.items())) + '\n'}
     audit = {}
     disabled = {}
     for locale, names in {
