@@ -1,0 +1,10 @@
+#!/bin/sh
+# 本機 pre-commit hook（啟用方式見 repo 文件的「本機與 CI 驗證分工」）。
+set -e
+echo "[pre-commit] cargo fmt --check"
+cargo fmt --all -- --check
+# 6 repo 並排時順手跑產生器一致性檢查（單獨 clone 時自動略過）
+if [ -d ../OpenCC ] && [ -d ../opencc-py ]; then
+  echo "[pre-commit] generate_taiwan_quality.py --check"
+  python3 tools/generate_taiwan_quality.py --check
+fi

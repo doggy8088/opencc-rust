@@ -49,3 +49,11 @@ On every push to `main` it reads the version from `Cargo.toml`:
 To release, bump `version` in `Cargo.toml` (and `Cargo.lock` via `cargo build`), commit, and push to `main`.
 
 Pushing a `v*` tag manually, or running the workflow with `workflow_dispatch`, also publishes; the GitHub Release is created if it does not exist. The crates.io Trusted Publisher is bound to the file name `publish.yml`, so renaming the workflow requires updating the crate settings on crates.io.
+
+
+## 本機與 CI 驗證分工
+
+- 啟用本機 pre-commit hook（每個 clone 設定一次）：`git config core.hooksPath .githooks`
+- 分工原則：本機負責 format 與快速回歸；CI 負責完整測試矩陣與「乾淨環境」驗證。hook 只放快檢查，慢測試一律交給 CI，避免被 `--no-verify` 繞過。
+- 本機 hook：`cargo fmt --check`；6 repo 並排時加跑產生器 `generate_taiwan_quality.py --check`（單獨 clone 自動略過）。
+- CI：`ci.yml` 跑 cargo test 與產生器政策 unittest；家族一致性的阻擋式防線是每週排程 `family-check.yml`，PR 內的 family-check job 為非阻擋警告（聯動發版期間紅燈屬預期）。
