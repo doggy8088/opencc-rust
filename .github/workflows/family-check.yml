@@ -1,0 +1,59 @@
+name: family-check
+
+# opencc-rust 的家族一致性排程檢查。
+# 家族一致性（產生器 --check、6 份 taiwan-quality.tsv 一致）目前只能在本機 6 repo 並排時驗證，
+# 沒有任何自動防線。本 workflow 以排程在「全家族 main」狀態下阻擋式檢查，失敗自動開 issue。
+# 6 個 repo 皆為公開 repo，actions/checkout 以 repository 參數拉取不需要額外 PAT。
+
+on:
+  schedule:
+    # 每週一 01:00 UTC（台北 09:00）
+    - cron: '0 1 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout all six repos (main)
+        run: |
+          for repo in opencc-rust OpenCC opencc-py opencc-swift opencc-js opencc-cli; do
+            git clone --depth 1 "https://github.com/${{ github.repository_owner }}/$repo.git" "$repo"
+          done
+
+      - name: Compare taiwan-quality.tsv across repos
+        run: |
+          md5sum \
+            opencc-rust/tests/taiwan-quality.tsv \
+            OpenCC/tests/OpenCC.Tests/taiwan-quality.tsv \
+            opencc-py/tests/taiwan-quality.tsv \
+            opencc-swift/Tests/OpenCCSwiftTests/taiwan-quality.tsv \
+            opencc-js/test/taiwan-quality.tsv \
+            opencc-cli/tests/taiwan-quality.tsv | tee tsv-md5.txt
+          count=$(awk '{print $1}' tsv-md5.txt | sort -u | wc -l)
+          if [ "$count" -ne 1 ]; then
+            echo "::error::6 份 taiwan-quality.tsv 不一致"
+            exit 1
+          fi
+
+      - name: Generator consistency check
+        # 產生器以「6 repo 並排的父目錄」為 ROOT，工作目錄即符合其假設
+        run: python3 opencc-rust/tools/generate_taiwan_quality.py --check
+
+      - name: Open or update issue on failure
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="家族一致性檢查失敗"
+          existing=$(gh issue list --repo "${{ github.repository }}" --search "$title in:title" --state open --json number --jq '.[0].number // empty')
+          body="排程 family-check 於 ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }} 失敗，請查 run log 並依 A/B/C 層修復後重跑產生器同步。"
+          if [ -n "$existing" ]; then
+            gh issue comment "$existing" --repo "${{ github.repository }}" --body "$body"
+          else
+            gh issue create --repo "${{ github.repository }}" --title "$title" --body "$body"
+          fi

@@ -1,0 +1,72 @@
+name: ci
+
+# opencc-rust 的 PR 測試 CI。
+# 現況：publish.yml 只在 push main／tag 且「要發新版」時才跑 cargo test；
+# PR 階段、以及合併後未 bump 版號的 push，都沒有任何自動測試。本 workflow 補上 PR 閘門。
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+
+      - name: Format check
+        run: cargo fmt --all -- --check
+
+      - name: Test
+        run: cargo test --locked
+
+  generator-policy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Generator policy tests
+        # 產生器的安全閘門回歸測試（validate_rules）：guarded 詞、單字元擴張、source_cn 群組等政策
+        working-directory: tools
+        run: python -m unittest test_taiwan_quality_generator -v
+
+  family-check:
+    # 非阻擋：需要 6 repo 並排才能跑產生器 --check。聯動改版期間（本 repo 先合併、其他 repo 未跟上）
+    # 本 job 可能正確地紅燈，故設 continue-on-error 只留警告；阻擋版在 05-family-check 的排程 workflow。
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Checkout opencc-rust (PR head)
+        uses: actions/checkout@v4
+        with:
+          path: opencc-rust
+
+      - name: Checkout siblings (main)
+        run: |
+          for repo in OpenCC opencc-py opencc-swift opencc-js opencc-cli; do
+            git clone --depth 1 "https://github.com/${{ github.repository_owner }}/$repo.git" "$repo"
+          done
+
+      - name: Generator consistency check
+        run: |
+          if ! python3 opencc-rust/tools/generate_taiwan_quality.py --check; then
+            echo "::warning::家族產生器一致性檢查未通過（聯動改版期間可能為預期，排程檢查會再確認）"
+            exit 1
+          fi
