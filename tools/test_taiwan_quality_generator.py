@@ -47,6 +47,16 @@ class PolicyValidationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'character by character'):
             validate_rules(self.rules)
 
+    def test_additional_source_group_is_valid(self):
+        self.assertTrue(self.rules.get('source_cn_groups'))
+        validate_rules(self.rules)
+
+    def test_additional_source_phrase_needs_its_own_character(self):
+        rules = copy.deepcopy(self.rules)
+        rules['source_cn_groups'][0]['phrases'].append(['血壓', '血壓'])
+        with self.assertRaisesRegex(ValueError, 'explicit context'):
+            validate_rules(rules)
+
     def test_source_guard_prefix_cannot_contain_the_character(self):
         self.rules['source_cn']['guard_prefixes'].append('干')
         with self.assertRaisesRegex(ValueError, 'Guard prefix'):
