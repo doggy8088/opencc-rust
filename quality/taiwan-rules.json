@@ -1318,5 +1318,16 @@
       ["干渠", "幹渠"],
       ["大溪豆干", "大溪豆乾"]
     ]
-  }
+  },
+  "source_cn_groups": [
+    {
+      "note": "Additional cn source patch groups, same format and gates as source_cn. 症 is shared by Simplified and Traditional, but STPhrases maps the subword 血症 to 血癥, so already-Traditional medical compounds ending in 血症 (敗血症, 毒血症, 高尿酸血症, ...) are rewritten to 血癥 on a second pass. An identity entry for 血症 protects every such compound by longest match, and the generator auto-protects the Traditional forms of upstream 症 phrases, as with 干. TCM terms written with 癥 (血癥瘕, 癥瘕, 癥結) contain no 血症 substring and are unaffected.",
+      "char": "症",
+      "guard_tails": [],
+      "guard_prefixes": [],
+      "phrases": [
+        ["血症", "血症"]
+      ]
+    }
+  ]
 }

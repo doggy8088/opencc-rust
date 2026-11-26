@@ -34,6 +34,8 @@ def validate_rules(rules):
             raise ValueError(f'Conflicting targets for {key}: {seen[key]} / {value}')
         seen[key] = value
     validate_source_cn(rules['source_cn'])
+    for group in rules.get('source_cn_groups', []):
+        validate_source_cn(group)
 
 
 def validate_source_cn(config):
@@ -165,6 +167,11 @@ def main():
     additions = (ROOT / 'opencc-py/src/opencc_py/locale_data.py').read_text()
     additions = re.search(r'TW_PHRASES_CUSTOM_ADDITIONS = """(.*?)"""', additions, re.S)[1]
     cn_patch = source_cn_patch(rules['source_cn'], constants)
+    for group in rules.get('source_cn_groups', []):
+        for key, value in source_cn_patch(group, constants).items():
+            if key in cn_patch and cn_patch[key] != value:
+                raise ValueError(f'Conflicting source patches for {key}: {cn_patch[key]} / {value}')
+            cn_patch[key] = value
     patches = {'cn': '\n'.join(k + '\t' + v for k, v in sorted(cn_patch.items())) + '\n'}
     audit = {}
     disabled = {}
