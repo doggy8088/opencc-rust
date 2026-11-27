@@ -131,6 +131,18 @@
     [
       "寬屏幕",
       "寬螢幕"
+    ],
+    [
+      "發佈",
+      "發布"
+    ],
+    [
+      "併發布",
+      "並發布"
+    ],
+    [
+      "讀屏軟件",
+      "螢幕報讀軟體"
     ]
   ],
   "protected": [
@@ -180,7 +192,7 @@
     "審判程序",
     "偵查程序",
     "起訴程序",
-    "執行程序",
+    "強制執行程序",
     "破產程序",
     "仲裁程序",
     "再審程序",
@@ -1185,6 +1197,10 @@
         [
           "粘貼到這裡",
           "貼上到這裡"
+        ],
+        [
+          "粘貼到這裏",
+          "貼上到這裡"
         ]
       ]
     },
@@ -1250,6 +1266,10 @@
         ],
         [
           "黏貼到這裡",
+          "貼上到這裡"
+        ],
+        [
+          "黏貼到這裏",
           "貼上到這裡"
         ]
       ]
@@ -1560,14 +1580,15 @@
       ]
     },
     {
-      "note": "采 is shared by Simplified and Traditional, but STCharacters maps it to 採, so already-Traditional 采風, 采風錄 and 采聲 are rewritten to 採-forms even though upstream itself keeps 采 in 采风录 and 采声. Identity entries protect these reviewed Traditional forms; Simplified 采风 input still follows upstream to 採風.",
+      "note": "采 is shared by Simplified and Traditional, but STCharacters maps it to 採, so already-Traditional 采風, 采風錄 and 采聲 are rewritten to 採-forms even though upstream itself keeps 采 in 采风录 and 采声. Identity entries protect these reviewed Traditional forms, and Simplified 采风 maps to 采風 as well for consistency with the retained Traditional form; 采风录 already reaches 采風錄 through the upstream long phrase, so it needs no entry here.",
       "char": "采",
       "guard_tails": [],
       "guard_prefixes": [],
       "phrases": [
         ["采風", "采風"],
         ["采風錄", "采風錄"],
-        ["采聲", "采聲"]
+        ["采聲", "采聲"],
+        ["采风", "采風"]
       ]
     }
   ]
