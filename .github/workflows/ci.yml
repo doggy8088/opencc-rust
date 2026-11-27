@@ -16,6 +16,9 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    # 零警告常規由 CI 把關：整個 job 以 -D warnings 編譯，任何 warning 都讓 CI 紅燈
+    env:
+      RUSTFLAGS: "-D warnings"
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -23,13 +26,16 @@ jobs:
       - name: Setup Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          components: rustfmt
+          components: rustfmt, clippy
 
       - name: Format check
         run: cargo fmt --all -- --check
 
       - name: Test
         run: cargo test --locked
+
+      - name: Clippy
+        run: cargo clippy --all-targets --locked -- -D warnings
 
   generator-policy:
     runs-on: ubuntu-latest
