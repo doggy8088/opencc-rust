@@ -67,7 +67,7 @@ fn built_in_converter_converts_preferred_taiwan_terms_to_tw2() {
         ("创建", "建立"),
         ("实现", "實作"),
         ("运行", "執行"),
-        ("发布", "發表"),
+        ("发布", "發布"),
         ("屏幕", "螢幕"),
         ("界面", "介面"),
         ("文档", "文件"),
@@ -95,9 +95,9 @@ fn built_in_converter_handles_cn_to_tw2_edge_cases() {
         ("类。", "類別。"),
         ("“数据库”, “网络请求”", "“資料庫”, “網路請求”"),
         ("项目设置：默认值", "專案設定：預設值"),
-        ("软件发布", "軟體發表"),
-        ("发布响应式编程教程", "發表回應式程式設計課程"),
-        ("发布数据库迁移脚本", "發表資料庫遷移指令碼"),
+        ("软件发布", "軟體發布"),
+        ("发布响应式编程教程", "發布回應式程式設計課程"),
+        ("发布数据库迁移脚本", "發布資料庫遷移指令碼"),
         ("文件名和文件系统", "檔名和檔案系統"),
         ("文件描述符和函数调用", "檔案描述子和函式呼叫"),
         ("渲染管线和内存分配", "算繪管線和記憶體配置"),
@@ -106,7 +106,7 @@ fn built_in_converter_handles_cn_to_tw2_edge_cases() {
         ("千钧一发", "千鈞一髮"),
         ("一触即发", "一觸即發"),
         ("百发百中", "百發百中"),
-        ("爆发发布", "爆發發表"),
+        ("爆发发布", "爆發發布"),
     ];
 
     for (source, expected) in cases {
@@ -193,7 +193,7 @@ fn built_in_converter_handles_cn_to_tw2_regional_orthography_and_sentence_edges(
 #[test]
 fn built_in_converter_documents_cn_to_tw2_release_publish_current_behavior() {
     let converter = converter("cn", "tw2").unwrap();
-    let cases = [("发布公告", "發表公告"), ("发布新版本", "發表新版本")];
+    let cases = [("发布公告", "發布公告"), ("发布新版本", "發布新版本")];
 
     for (source, expected) in cases {
         assert_eq!(converter.convert(source), expected, "{source}");
